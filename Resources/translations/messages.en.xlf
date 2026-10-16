@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="messages.en.xlf">
+    <body>
+      <trans-unit id="weekly_targets.field" resname="weekly_targets.field">
+        <source>weekly_targets.field</source>
+        <target>Weekly target</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.field_help" resname="weekly_targets.field_help">
+        <source>weekly_targets.field_help</source>
+        <target>Time per week, e.g. 10:00. Empty: no target. Compared with the tracked time in Reporting › Weekly targets (for a customer: the time of all its projects).</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.type" resname="weekly_targets.type">
+        <source>weekly_targets.type</source>
+        <target>Kind of weekly target</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.type_help" resname="weekly_targets.type_help">
+        <source>weekly_targets.type_help</source>
+        <target>"At least": a goal, shown red until reached. "At most": a limit, shown red once exceeded.</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.type_at_least" resname="weekly_targets.type_at_least">
+        <source>weekly_targets.type_at_least</source>
+        <target>At least (a goal to reach)</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.type_at_most" resname="weekly_targets.type_at_most">
+        <source>weekly_targets.type_at_most</source>
+        <target>At most (a limit not to exceed)</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.week" resname="weekly_targets.week">
+        <source>weekly_targets.week</source>
+        <target>Week %begin% – %end%</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.target" resname="weekly_targets.target">
+        <source>weekly_targets.target</source>
+        <target>Target</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.tracked" resname="weekly_targets.tracked">
+        <source>weekly_targets.tracked</source>
+        <target>Tracked</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.difference" resname="weekly_targets.difference">
+        <source>weekly_targets.difference</source>
+        <target>Difference</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.percent" resname="weekly_targets.percent">
+        <source>weekly_targets.percent</source>
+        <target>Of the target</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.customer_target" resname="weekly_targets.customer_target">
+        <source>weekly_targets.customer_target</source>
+        <target>customer target</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.empty" resname="weekly_targets.empty">
+        <source>weekly_targets.empty</source>
+        <target>No weekly targets and no tracked time in this week. Set a "Weekly target" when editing a project or a customer.</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.no_targets" resname="weekly_targets.no_targets">
+        <source>weekly_targets.no_targets</source>
+        <target>No weekly targets yet: set a "Weekly target" when editing a project or a customer.</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.total_targeted" resname="weekly_targets.total_targeted">
+        <source>weekly_targets.total_targeted</source>
+        <target>Total of the "at least" targets</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.untargeted" resname="weekly_targets.untargeted">
+        <source>weekly_targets.untargeted</source>
+        <target>Time tracked without a target</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.tracked_total" resname="weekly_targets.tracked_total">
+        <source>weekly_targets.tracked_total</source>
+        <target>All time tracked this week</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.footnote" resname="weekly_targets.footnote">
+        <source>weekly_targets.footnote</source>
+        <target>≥ at least: red until reached. ≤ at most: red once exceeded. Difference = tracked − target. A customer target counts all the time of its projects (grey rows: projects without a target of their own). The total adds up the "at least" targets only. A running timer counts up to now.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

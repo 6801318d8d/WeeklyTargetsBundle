@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="it" datatype="plaintext" original="messages.it.xlf">
+    <body>
+      <trans-unit id="weekly_targets.field" resname="weekly_targets.field">
+        <source>weekly_targets.field</source>
+        <target>Obiettivo settimanale</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.field_help" resname="weekly_targets.field_help">
+        <source>weekly_targets.field_help</source>
+        <target>Tempo per settimana, per esempio 10:00. Vuoto: nessun obiettivo. Viene confrontato con il tempo registrato in Reporting › Obiettivi settimanali (per un cliente: il tempo di tutti i suoi progetti).</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.type" resname="weekly_targets.type">
+        <source>weekly_targets.type</source>
+        <target>Tipo di obiettivo settimanale</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.type_help" resname="weekly_targets.type_help">
+        <source>weekly_targets.type_help</source>
+        <target>"Almeno": un traguardo, in rosso finché non è raggiunto. "Al massimo": un limite, in rosso quando viene superato.</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.type_at_least" resname="weekly_targets.type_at_least">
+        <source>weekly_targets.type_at_least</source>
+        <target>Almeno (un traguardo da raggiungere)</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.type_at_most" resname="weekly_targets.type_at_most">
+        <source>weekly_targets.type_at_most</source>
+        <target>Al massimo (un limite da non superare)</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.week" resname="weekly_targets.week">
+        <source>weekly_targets.week</source>
+        <target>Settimana %begin% – %end%</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.target" resname="weekly_targets.target">
+        <source>weekly_targets.target</source>
+        <target>Obiettivo</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.tracked" resname="weekly_targets.tracked">
+        <source>weekly_targets.tracked</source>
+        <target>Registrato</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.difference" resname="weekly_targets.difference">
+        <source>weekly_targets.difference</source>
+        <target>Differenza</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.percent" resname="weekly_targets.percent">
+        <source>weekly_targets.percent</source>
+        <target>Dell'obiettivo</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.customer_target" resname="weekly_targets.customer_target">
+        <source>weekly_targets.customer_target</source>
+        <target>obiettivo del cliente</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.empty" resname="weekly_targets.empty">
+        <source>weekly_targets.empty</source>
+        <target>Nessun obiettivo settimanale e nessun tempo registrato in questa settimana. Imposta un "Obiettivo settimanale" modificando un progetto o un cliente.</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.no_targets" resname="weekly_targets.no_targets">
+        <source>weekly_targets.no_targets</source>
+        <target>Ancora nessun obiettivo settimanale: imposta un "Obiettivo settimanale" modificando un progetto o un cliente.</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.total_targeted" resname="weekly_targets.total_targeted">
+        <source>weekly_targets.total_targeted</source>
+        <target>Totale degli obiettivi "almeno"</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.untargeted" resname="weekly_targets.untargeted">
+        <source>weekly_targets.untargeted</source>
+        <target>Tempo registrato senza obiettivo</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.tracked_total" resname="weekly_targets.tracked_total">
+        <source>weekly_targets.tracked_total</source>
+        <target>Tempo totale registrato nella settimana</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.footnote" resname="weekly_targets.footnote">
+        <source>weekly_targets.footnote</source>
+        <target>≥ almeno: in rosso finché non è raggiunto. ≤ al massimo: in rosso quando è superato. Differenza = registrato − obiettivo. L'obiettivo di un cliente conta tutto il tempo dei suoi progetti (righe grigie: progetti senza un obiettivo proprio). Il totale somma solo gli obiettivi "almeno". Un timer in corso conta fino a ora.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

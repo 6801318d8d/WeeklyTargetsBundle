@@ -1,0 +1,7 @@
+# Same prefix and default as Kimai's own controllers (config/routes.yaml)
+weekly_targets_controllers:
+    resource: '../../Controller/'
+    type: attribute
+    prefix: /{_locale}
+    defaults:
+        _locale: '%locale%'

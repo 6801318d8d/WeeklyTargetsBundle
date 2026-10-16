@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="reporting.en.xlf">
+    <body>
+      <trans-unit id="weekly_targets.title" resname="weekly_targets.title">
+        <source>weekly_targets.title</source>
+        <target>Weekly targets</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,19 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    KimaiPlugin\WeeklyTargetsBundle\EventSubscriber\:
+        resource: '../../EventSubscriber/'
+
+    KimaiPlugin\WeeklyTargetsBundle\Form\:
+        resource: '../../Form/'
+
+    KimaiPlugin\WeeklyTargetsBundle\Reporting\:
+        resource: '../../Reporting/'
+
+    KimaiPlugin\WeeklyTargetsBundle\Controller\:
+        resource: '../../Controller/'
+        public: true
+        tags: ['controller.service_arguments']
