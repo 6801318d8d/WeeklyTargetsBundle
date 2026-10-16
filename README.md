@@ -10,6 +10,9 @@ paper X") and limits ("at most 5 hours a week of leisure"):
   tracked time, difference and the percentage of the target, per project and per customer; below, the time tracked
   without any target, and the week's total.
 
+- optionally, a **weekly summary** pushed to [ntfy](https://ntfy.sh), e.g. every Monday for the week just ended (see
+  below).
+
 Kimai's own time budgets are either for the whole lifetime of a project or monthly; this plugin adds the weekly view.
 
 ## How it counts
@@ -27,6 +30,36 @@ Kimai's own time budgets are either for the whole lifetime of a project or month
 - Tracked time is the logged-in user's own time: every timesheet that starts within the week (the week starts on
   the user's first weekday setting). A running timer counts up to now.
 - Targets of hidden projects or customers are ignored: hide a finished project to drop its target.
+
+## Weekly summary on ntfy
+
+```sh
+bin/console weekly-targets:notify --user=<username> [--week=YYYY-MM-DD] [--dry-run] --env=prod
+```
+
+pushes one week of one user, by default the previous week, to an ntfy topic. The title is "Kimai: weekly targets,
+N of M met", with ✅ when all are met and ⚠️ otherwise. The message has one line per target (✅ / ❌, tracked of
+target, difference), the planned "at least" total, the time without a target, the week's total and the date and
+time it was sent. Nothing is sent while no target is set. The texts follow the user's language (English and
+Italian are included); `--dry-run` prints the notification instead of sending it.
+
+Settings, as environment variables of Kimai (e.g. in `.env.local`, or `environment:` of the Docker container):
+
+| Variable | |
+|---|---|
+| `WEEKLY_TARGETS_NTFY_URL` | ntfy server, e.g. `https://ntfy.example.com` (required) |
+| `WEEKLY_TARGETS_NTFY_TOPIC` | topic, default `kimai-weekly-targets` |
+| `WEEKLY_TARGETS_NTFY_TOKEN` | access token, if the topic needs one |
+| `WEEKLY_TARGETS_KIMAI_URL` | Kimai's address, e.g. `https://kimai.example.com`: tapping the notification opens the week's report |
+
+Run it once a week, e.g. on Monday morning with cron:
+
+```sh
+0 8 * * 1  cd /path/to/kimai && bin/console weekly-targets:notify --user=alice --env=prod
+```
+
+or, with the Docker image, from the host's scheduler:
+`docker exec -u www-data kimai /opt/kimai/bin/console weekly-targets:notify --user=alice --env=prod`.
 
 ## Requirements
 

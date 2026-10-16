@@ -13,6 +13,9 @@ services:
     KimaiPlugin\WeeklyTargetsBundle\Reporting\:
         resource: '../../Reporting/'
 
+    KimaiPlugin\WeeklyTargetsBundle\Command\:
+        resource: '../../Command/'
+
     KimaiPlugin\WeeklyTargetsBundle\Controller\:
         resource: '../../Controller/'
         public: true

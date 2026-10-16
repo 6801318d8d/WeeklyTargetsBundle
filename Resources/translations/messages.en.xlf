@@ -74,6 +74,30 @@
         <source>weekly_targets.footnote</source>
         <target>≥ at least: red until reached. ≤ at most: red once exceeded. Difference = tracked − target. A customer target counts all the time of its projects (grey rows: projects without a target of their own). The total adds up the "at least" targets only. A running timer counts up to now.</target>
       </trans-unit>
+      <trans-unit id="weekly_targets.notify_title" resname="weekly_targets.notify_title">
+        <source>weekly_targets.notify_title</source>
+        <target>Kimai: weekly targets, %met% of %targets% met</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.notify_week" resname="weekly_targets.notify_week">
+        <source>weekly_targets.notify_week</source>
+        <target>Week: %begin% – %end%</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.notify_line" resname="weekly_targets.notify_line">
+        <source>weekly_targets.notify_line</source>
+        <target>%name%: %status% %tracked% of %target% (%diff%)</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.notify_planned" resname="weekly_targets.notify_planned">
+        <source>weekly_targets.notify_planned</source>
+        <target>Planned ("at least"): %tracked% of %target% (%percent% %)</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.notify_untargeted" resname="weekly_targets.notify_untargeted">
+        <source>weekly_targets.notify_untargeted</source>
+        <target>Without a target: %tracked%</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.notify_total" resname="weekly_targets.notify_total">
+        <source>weekly_targets.notify_total</source>
+        <target>Total tracked: %tracked%</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

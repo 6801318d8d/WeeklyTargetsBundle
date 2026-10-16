@@ -1,9 +1,9 @@
 {
     "name": "6801318d8d/weekly-targets-bundle",
-    "description": "Weekly time targets (at least / at most) on Kimai projects and customers, and a report of target vs. tracked time per week",
+    "description": "Weekly time targets (at least / at most) on Kimai projects and customers, a report of target vs. tracked time per week and a weekly summary on ntfy",
     "homepage": "https://github.com/6801318d8d/WeeklyTargetsBundle",
     "type": "kimai-plugin",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "license": "MIT",
     "authors": [
         {
