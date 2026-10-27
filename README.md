@@ -38,11 +38,12 @@ Kimai's own time budgets are either for the whole lifetime of a project or month
 bin/console weekly-targets:notify --user=<username> [--week=YYYY-MM-DD] [--dry-run] --env=prod
 ```
 
-pushes one week of one user, by default the previous week, to an ntfy topic. The title is "Kimai: weekly summary,
-HH:MM tracked, N of M targets met", with ✅ when all are met and ⚠️ otherwise (📊 and no target count when no target
-is set). The message has first all the time tracked in the week by customer, longest first, and the week's total;
-then one line per target (✅ / ❌, tracked of target, difference), the planned "at least" total and the time without
-a target; at the bottom the date and time it was sent. Durations are `HH:MM`. Nothing is sent when the week has
+pushes one week of one user, by default the previous week, to an ntfy topic. The title is "Kimai: HH:MM tracked,
+N of M targets met", with ✅ when all are met and ⚠️ otherwise (📊 and no target count when no target is set). The
+message is Markdown (ntfy renders it in its apps): the week first, so that a collapsed notification shows it; then
+all the time tracked in the week by customer, longest first, with its share of the week, and the week's total; then
+one line per target (✅ / ❌, tracked of target, difference), the planned "at least" total and the time without a
+target; at the bottom the date and time it was sent. Durations are `HH:MM`. Nothing is sent when the week has
 neither targets nor tracked time. The texts follow the user's language (English and Italian are included);
 `--dry-run` prints the notification instead of sending it.
 
