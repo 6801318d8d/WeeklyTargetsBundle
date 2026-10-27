@@ -40,7 +40,8 @@ bin/console weekly-targets:notify --user=<username> [--week=YYYY-MM-DD] [--dry-r
 
 pushes one week of one user, by default the previous week, to an ntfy topic. The title is "Kimai: HH:MM tracked,
 N of M targets met", with ✅ when all are met and ⚠️ otherwise (📊 and no target count when no target is set). The
-message is Markdown (ntfy renders it in its apps): the week first, so that a collapsed notification shows it; then
+message is Markdown (ntfy renders it in its apps): the week first, so that a collapsed notification shows it, as
+its ISO week number of the year's weeks ("Week 43 of 53") with its dates on the next line; then
 a table of all the time tracked in the week by customer, longest first, with its share of the week, and the week's
 total; then a table of the targets (✅ / ❌ and name, tracked of target, difference), the planned "at least" total
 and the time without a target; at the bottom the date and time it was sent. Tables have three columns at most, since

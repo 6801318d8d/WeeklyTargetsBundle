@@ -108,8 +108,13 @@ final class NotifyCommand extends Command
         // line outside a table ends with two spaces, a hard break for ntfy's web app. Three columns at most: the Android
         // app gives every column the same width. A notification that can't draw tables shows one line per row.
         $tracked = $report['tracked_total'];
-        // the week first: a collapsed notification shows only the title and the first line
-        $message = ['**' . $t('weekly_targets.notify_week', ['%begin%' => $begin->format('Y-m-d'), '%end%' => $end->format('Y-m-d')]) . '**'];
+        // the week first (a collapsed notification shows only the title and the first lines): its ISO number of the
+        // year's ISO weeks (28 December is always in the year's last week), then its dates on a line of their own
+        $weeks = (int) (new \DateTimeImmutable($begin->format('o') . '-12-28'))->format('W');
+        $message = [
+            '**' . $t('weekly_targets.notify_week', ['%number%' => (string) (int) $begin->format('W'), '%weeks%' => (string) $weeks]) . '**  ',
+            $begin->format('Y-m-d') . ' – ' . $end->format('Y-m-d'),
+        ];
         // then what the week went into: every customer worked on, longest first, with its share, then their sum
         $message[] = '';
         $message[] = '**' . $t('weekly_targets.notify_customers') . '**';
