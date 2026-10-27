@@ -8,7 +8,8 @@ paper X") and limits ("at most 5 hours a week of leisure"):
   a column in their lists and exports);
 - a **Weekly targets** report (Reporting menu), one week at a time with previous / next week buttons: target,
   tracked time, difference and the percentage of the target, per project and per customer; below, the time tracked
-  without any target, and the week's total.
+  without any target, all the week's time by customer (targets or not), and the week's total. Durations are hours
+  and minutes (`HH:MM`).
 
 - optionally, a **weekly summary** pushed to [ntfy](https://ntfy.sh), e.g. every Monday for the week just ended (see
   below).
@@ -37,11 +38,13 @@ Kimai's own time budgets are either for the whole lifetime of a project or month
 bin/console weekly-targets:notify --user=<username> [--week=YYYY-MM-DD] [--dry-run] --env=prod
 ```
 
-pushes one week of one user, by default the previous week, to an ntfy topic. The title is "Kimai: weekly targets,
-N of M met", with ✅ when all are met and ⚠️ otherwise. The message has one line per target (✅ / ❌, tracked of
-target, difference), the planned "at least" total, the time without a target, the week's total and the date and
-time it was sent. Nothing is sent while no target is set. The texts follow the user's language (English and
-Italian are included); `--dry-run` prints the notification instead of sending it.
+pushes one week of one user, by default the previous week, to an ntfy topic. The title is "Kimai: weekly summary,
+HH:MM tracked, N of M targets met", with ✅ when all are met and ⚠️ otherwise (📊 and no target count when no target
+is set). The message has first all the time tracked in the week by customer, longest first, and the week's total;
+then one line per target (✅ / ❌, tracked of target, difference), the planned "at least" total and the time without
+a target; at the bottom the date and time it was sent. Durations are `HH:MM`. Nothing is sent when the week has
+neither targets nor tracked time. The texts follow the user's language (English and Italian are included);
+`--dry-run` prints the notification instead of sending it.
 
 Settings, as environment variables of Kimai (e.g. in `.env.local`, or `environment:` of the Docker container):
 

@@ -33,8 +33,9 @@ final class WeeklyTargetsCalculator
     /**
      * groups: list of {customer, line (the customer row), own_target (bool), rows: list of {project, line}};
      * total: line of the "at least" targets or null; untargeted: list of {project, actual}; untargeted_actual;
-     * tracked_total. A line is {target, type, actual, diff, percent, ok}, target/type/diff/percent/ok null without
-     * a target.
+     * by_customer: list of {customer, actual}, all the time tracked in the period by customer, targets or not,
+     * longest first; tracked_total. A line is {target, type, actual, diff, percent, ok}, target/type/diff/percent/ok
+     * null without a target.
      *
      * @return array<string, mixed>
      */
@@ -129,11 +130,24 @@ final class WeeklyTargetsCalculator
 
         $untargetedActual = array_sum(array_column($untargeted, 'actual'));
 
+        // every customer worked on, hidden ones too (the time was tracked all the same)
+        $byCustomer = [];
+        foreach ($projects as $project) {
+            if (($seconds = $actual[$project->getId()] ?? 0) > 0) {
+                $customer = $project->getCustomer();
+                $byCustomer[$customer?->getId() ?? 0] ??= ['customer' => $customer, 'actual' => 0];
+                $byCustomer[$customer?->getId() ?? 0]['actual'] += $seconds;
+            }
+        }
+        $byCustomer = array_values($byCustomer);
+        usort($byCustomer, static fn (array $a, array $b): int => ($b['actual'] <=> $a['actual']) ?: $byName($a['customer']?->getName(), $b['customer']?->getName()));
+
         return [
             'groups' => $groups,
             'total' => $totalTarget > 0 ? $this->line($totalTarget, WeeklyTargetsBundle::TYPE_AT_LEAST, $totalActual) : null,
             'untargeted' => $untargeted,
             'untargeted_actual' => $untargetedActual,
+            'by_customer' => $byCustomer,
             'tracked_total' => array_sum($actual),
         ];
     }

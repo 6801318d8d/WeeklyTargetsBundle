@@ -15,8 +15,9 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Pushes the weekly targets of one user and one week (by default the previous one) to ntfy: a line per target, the
- * planned ("at least") total, the time without a target and the week's total. Meant to run once a week from cron.
+ * Pushes the weekly summary of one user and one week (by default the previous one) to ntfy: first all the time tracked,
+ * by customer, and the week's total; then a line per target, the planned ("at least") total and the time without a
+ * target. Durations as HH:MM. Weeks without targets still get the time by customer. Meant to run once a week from cron.
  *
  * Settings come from the environment: WEEKLY_TARGETS_NTFY_URL (e.g. https://ntfy.example.com, required),
  * WEEKLY_TARGETS_NTFY_TOPIC (default "kimai-weekly-targets"), WEEKLY_TARGETS_NTFY_TOKEN (access token, optional) and
@@ -95,26 +96,41 @@ final class NotifyCommand extends Command
                 ]);
             }
         }
-        if ($count === 0) {
-            $output->writeln('No weekly targets: nothing to send.');
+        if ($count === 0 && $report['tracked_total'] <= 0) {
+            $output->writeln('No weekly targets and no time tracked: nothing to send.');
 
             return Command::SUCCESS;
         }
 
         $message = [$t('weekly_targets.notify_week', ['%begin%' => $begin->format('Y-m-d'), '%end%' => $end->format('Y-m-d')])];
-        array_push($message, ...$lines);
-        $message[] = '';
-        if ($report['total'] !== null) {
-            $message[] = $t('weekly_targets.notify_planned', [
-                '%tracked%' => $this->duration($report['total']['actual']),
-                '%target%' => $this->duration($report['total']['target']),
-                '%percent%' => (string) round($report['total']['percent']),
-            ]);
-        }
-        if ($report['untargeted_actual'] > 0) {
-            $message[] = $t('weekly_targets.notify_untargeted', ['%tracked%' => $this->duration($report['untargeted_actual'])]);
+        // first what the week went into: every customer worked on, longest first, then their sum
+        if ($report['by_customer'] !== []) {
+            $message[] = '';
+            $message[] = $t('weekly_targets.notify_customers');
+            foreach ($report['by_customer'] as $row) {
+                $message[] = $t('weekly_targets.notify_customer_line', [
+                    '%name%' => $row['customer']?->getName() ?? '–',
+                    '%tracked%' => $this->duration($row['actual']),
+                ]);
+            }
         }
         $message[] = $t('weekly_targets.notify_total', ['%tracked%' => $this->duration($report['tracked_total'])]);
+        // then the targets
+        if ($count > 0) {
+            $message[] = '';
+            $message[] = $t('weekly_targets.notify_targets');
+            array_push($message, ...$lines);
+            if ($report['total'] !== null) {
+                $message[] = $t('weekly_targets.notify_planned', [
+                    '%tracked%' => $this->duration($report['total']['actual']),
+                    '%target%' => $this->duration($report['total']['target']),
+                    '%percent%' => (string) round($report['total']['percent']),
+                ]);
+            }
+            if ($report['untargeted_actual'] > 0) {
+                $message[] = $t('weekly_targets.notify_untargeted', ['%tracked%' => $this->duration($report['untargeted_actual'])]);
+            }
+        }
         // the local date and time at the bottom: the ntfy Android app shows dates only in the phone's locale format
         $message[] = '';
         $message[] = '🕒 ' . $dateTimeFactory->createDateTime()->format('Y-m-d H:i');
@@ -123,9 +139,11 @@ final class NotifyCommand extends Command
         $payload = [
             'topic' => $env('WEEKLY_TARGETS_NTFY_TOPIC') ?: 'kimai-weekly-targets',
             // not "%count%": with that parameter Symfony's translator treats "Kimai:" as a plural label and drops it
-            'title' => $t('weekly_targets.notify_title', ['%met%' => (string) $met, '%targets%' => (string) $count]),
+            'title' => $count > 0
+                ? $t('weekly_targets.notify_title', ['%tracked%' => $this->duration($report['tracked_total']), '%met%' => (string) $met, '%targets%' => (string) $count])
+                : $t('weekly_targets.notify_title_no_targets', ['%tracked%' => $this->duration($report['tracked_total'])]),
             'message' => implode("\n", $message),
-            'tags' => [$met === $count ? 'white_check_mark' : 'warning'],
+            'tags' => [$count === 0 ? 'bar_chart' : ($met === $count ? 'white_check_mark' : 'warning')],
             'priority' => 3,
         ];
         if (($kimai = rtrim($env('WEEKLY_TARGETS_KIMAI_URL'), '/')) !== '') {
@@ -167,13 +185,14 @@ final class NotifyCommand extends Command
         return Command::SUCCESS;
     }
 
-    /** HH:MM:SS, with a leading + or − when $signed */
+    /** HH:MM rounded to the minute (weekly targets need no seconds), with a leading + or − when $signed */
     private function duration(?int $seconds, bool $signed = false): string
     {
         $seconds ??= 0;
-        $sign = $signed ? ($seconds < 0 ? '−' : '+') : ($seconds < 0 ? '−' : '');
-        $seconds = abs($seconds);
+        $minutes = intdiv(abs($seconds) + 30, 60);
+        $negative = $seconds < 0 && $minutes > 0;
+        $sign = $signed ? ($negative ? '−' : '+') : ($negative ? '−' : '');
 
-        return \sprintf('%s%02d:%02d:%02d', $sign, intdiv($seconds, 3600), intdiv($seconds, 60) % 60, $seconds % 60);
+        return \sprintf('%s%02d:%02d', $sign, intdiv($minutes, 60), $minutes % 60);
     }
 }
