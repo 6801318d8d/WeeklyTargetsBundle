@@ -87,12 +87,14 @@ final class NotifyCommand extends Command
             foreach ($targets as [$name, $line]) {
                 $count++;
                 $met += $line['ok'] ? 1 : 0;
-                $lines[] = '- ' . $t('weekly_targets.notify_line', [
-                    '%name%' => '**' . $this->md($name) . '**',
-                    '%status%' => $line['ok'] ? '✅' : '❌',
-                    '%tracked%' => $this->duration($line['actual']),
-                    '%target%' => ($line['type'] === WeeklyTargetsBundle::TYPE_AT_MOST ? '≤ ' : '≥ ') . $this->duration($line['target']),
-                    '%diff%' => $this->duration($line['diff'], true),
+                // table row: target | tracked of the target | difference
+                $lines[] = $this->row([
+                    ($line['ok'] ? '✅' : '❌') . ' ' . $this->md($name),
+                    $t('weekly_targets.notify_line', [
+                        '%tracked%' => $this->duration($line['actual']),
+                        '%target%' => ($line['type'] === WeeklyTargetsBundle::TYPE_AT_MOST ? '≤ ' : '≥ ') . $this->duration($line['target']),
+                    ]),
+                    $this->duration($line['diff'], true),
                 ]);
             }
         }
@@ -102,30 +104,34 @@ final class NotifyCommand extends Command
             return Command::SUCCESS;
         }
 
-        // Markdown (ntfy renders it in the app, the notification included): bold headings, one list per section, blank
-        // lines between sections; a line outside a list ends with two spaces, a hard break for ntfy's web app
+        // Markdown (ntfy renders it in its apps): a bold heading and a table per section, blank lines between blocks; a
+        // line outside a table ends with two spaces, a hard break for ntfy's web app. Three columns at most: the Android
+        // app gives every column the same width. A notification that can't draw tables shows one line per row.
         $tracked = $report['tracked_total'];
         // the week first: a collapsed notification shows only the title and the first line
         $message = ['**' . $t('weekly_targets.notify_week', ['%begin%' => $begin->format('Y-m-d'), '%end%' => $end->format('Y-m-d')]) . '**'];
         // then what the week went into: every customer worked on, longest first, with its share, then their sum
-        if ($report['by_customer'] !== []) {
-            $message[] = '';
-            $message[] = '**' . $t('weekly_targets.notify_customers') . '**  ';
-            foreach ($report['by_customer'] as $row) {
-                $share = $tracked > 0 ? round(100 * $row['actual'] / $tracked) : 0;
-                $message[] = '- ' . $t('weekly_targets.notify_customer_line', [
-                    '%name%' => '**' . $this->md($row['customer']?->getName() ?? '–') . '**',
-                    '%tracked%' => $this->duration($row['actual']),
-                    '%percent%' => $share < 1 ? '<1' : (string) $share,
-                ]);
-            }
-        }
         $message[] = '';
-        $message[] = '**' . $t('weekly_targets.notify_total', ['%tracked%' => $this->duration($tracked)]) . '**';
+        $message[] = '**' . $t('weekly_targets.notify_customers') . '**';
+        $message[] = '';
+        $message[] = $this->row([$t('weekly_targets.notify_col_customer'), $t('weekly_targets.notify_col_time'), $t('weekly_targets.notify_col_share')]);
+        $message[] = '|:--|--:|--:|';
+        foreach ($report['by_customer'] as $row) {
+            $share = $tracked > 0 ? round(100 * $row['actual'] / $tracked) : 0;
+            $message[] = $this->row([
+                $this->md($row['customer']?->getName() ?? '–'),
+                $this->duration($row['actual']),
+                ($share < 1 ? '<1' : (string) $share) . "\u{00A0}%",
+            ]);
+        }
+        $message[] = $this->row(['**' . $t('weekly_targets.notify_total') . '**', '**' . $this->duration($tracked) . '**', '']);
         // then the targets
         if ($count > 0) {
             $message[] = '';
-            $message[] = '**' . $t('weekly_targets.notify_targets', ['%met%' => (string) $met, '%targets%' => (string) $count]) . '**  ';
+            $message[] = '**' . $t('weekly_targets.notify_targets', ['%met%' => (string) $met, '%targets%' => (string) $count]) . '**';
+            $message[] = '';
+            $message[] = $this->row([$t('weekly_targets.notify_col_target'), $t('weekly_targets.notify_col_progress'), $t('weekly_targets.notify_col_diff')]);
+            $message[] = '|:--|--:|--:|';
             array_push($message, ...$lines);
             $notes = [];
             if ($report['total'] !== null) {
@@ -198,6 +204,12 @@ final class NotifyCommand extends Command
         $output->writeln(\sprintf('Sent "%s" to topic %s (%d of %d targets met).', $payload['title'], $payload['topic'], $met, $count));
 
         return Command::SUCCESS;
+    }
+
+    /** @param string[] $cells one row of a Markdown table */
+    private function row(array $cells): string
+    {
+        return '| ' . implode(' | ', $cells) . ' |';
     }
 
     /** Text shown as it is in ntfy's Markdown: its special characters escaped */

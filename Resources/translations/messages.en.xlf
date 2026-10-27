@@ -84,7 +84,7 @@
       </trans-unit>
       <trans-unit id="weekly_targets.notify_line" resname="weekly_targets.notify_line">
         <source>weekly_targets.notify_line</source>
-        <target>%status% %name%: %tracked% of %target% (%diff%)</target>
+        <target>%tracked% of %target%</target>
       </trans-unit>
       <trans-unit id="weekly_targets.notify_planned" resname="weekly_targets.notify_planned">
         <source>weekly_targets.notify_planned</source>
@@ -96,7 +96,7 @@
       </trans-unit>
       <trans-unit id="weekly_targets.notify_total" resname="weekly_targets.notify_total">
         <source>weekly_targets.notify_total</source>
-        <target>Total: %tracked%</target>
+        <target>Total</target>
       </trans-unit>
       <trans-unit id="weekly_targets.notify_customers" resname="weekly_targets.notify_customers">
         <source>weekly_targets.notify_customers</source>
@@ -110,13 +110,33 @@
         <source>weekly_targets.by_customer</source>
         <target>Time by customer</target>
       </trans-unit>
-      <trans-unit id="weekly_targets.notify_customer_line" resname="weekly_targets.notify_customer_line">
-        <source>weekly_targets.notify_customer_line</source>
-        <target>%name% %tracked% · %percent% %</target>
-      </trans-unit>
       <trans-unit id="weekly_targets.notify_title_no_targets" resname="weekly_targets.notify_title_no_targets">
         <source>weekly_targets.notify_title_no_targets</source>
         <target>Kimai: %tracked% tracked</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.notify_col_customer" resname="weekly_targets.notify_col_customer">
+        <source>weekly_targets.notify_col_customer</source>
+        <target>Customer</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.notify_col_time" resname="weekly_targets.notify_col_time">
+        <source>weekly_targets.notify_col_time</source>
+        <target>Time</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.notify_col_share" resname="weekly_targets.notify_col_share">
+        <source>weekly_targets.notify_col_share</source>
+        <target>Share</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.notify_col_target" resname="weekly_targets.notify_col_target">
+        <source>weekly_targets.notify_col_target</source>
+        <target>Target</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.notify_col_progress" resname="weekly_targets.notify_col_progress">
+        <source>weekly_targets.notify_col_progress</source>
+        <target>Tracked</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.notify_col_diff" resname="weekly_targets.notify_col_diff">
+        <source>weekly_targets.notify_col_diff</source>
+        <target>Difference</target>
       </trans-unit>
     </body>
   </file>
