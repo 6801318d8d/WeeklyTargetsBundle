@@ -76,10 +76,6 @@
       </trans-unit>
       <trans-unit id="weekly_targets.notify_title" resname="weekly_targets.notify_title">
         <source>weekly_targets.notify_title</source>
-        <target>Kimai: %tracked% registrate, %met% su %targets% obiettivi rispettati</target>
-      </trans-unit>
-      <trans-unit id="weekly_targets.notify_week" resname="weekly_targets.notify_week">
-        <source>weekly_targets.notify_week</source>
         <target>📅 Settimana %number% di %weeks%</target>
       </trans-unit>
       <trans-unit id="weekly_targets.notify_line" resname="weekly_targets.notify_line">
@@ -110,10 +106,6 @@
         <source>weekly_targets.by_customer</source>
         <target>Tempo per cliente</target>
       </trans-unit>
-      <trans-unit id="weekly_targets.notify_title_no_targets" resname="weekly_targets.notify_title_no_targets">
-        <source>weekly_targets.notify_title_no_targets</source>
-        <target>Kimai: %tracked% registrate</target>
-      </trans-unit>
       <trans-unit id="weekly_targets.notify_col_customer" resname="weekly_targets.notify_col_customer">
         <source>weekly_targets.notify_col_customer</source>
         <target>Cliente</target>
@@ -137,6 +129,22 @@
       <trans-unit id="weekly_targets.notify_col_diff" resname="weekly_targets.notify_col_diff">
         <source>weekly_targets.notify_col_diff</source>
         <target>Differenza</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.notify_summary" resname="weekly_targets.notify_summary">
+        <source>weekly_targets.notify_summary</source>
+        <target>%tracked% registrate, %met% su %targets% obiettivi rispettati</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.notify_summary_no_targets" resname="weekly_targets.notify_summary_no_targets">
+        <source>weekly_targets.notify_summary_no_targets</source>
+        <target>%tracked% registrate</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.datetime_format" resname="weekly_targets.datetime_format">
+        <source>weekly_targets.datetime_format</source>
+        <target>Formato di data e ora</target>
+      </trans-unit>
+      <trans-unit id="weekly_targets.datetime_format_help" resname="weekly_targets.datetime_format_help">
+        <source>weekly_targets.datetime_format_help</source>
+        <target>Come appaiono date e orari nel report degli obiettivi settimanali e nel riepilogo settimanale su ntfy. Le durate sono sempre HH:MM:SS.</target>
       </trans-unit>
     </body>
   </file>

@@ -1,12 +1,9 @@
 {% extends 'reporting/layout.html.twig' %}
 
 {# A line is {target, type, actual, diff, percent, ok}; target and the rest are null without a target #}
-{# Durations as hours and minutes, rounded to the minute: a weekly target needs no seconds #}
-{% macro hm(seconds) %}{% set minutes = ((seconds|abs) + 30) // 60 %}{{ '%02d:%02d'|format(minutes // 60, minutes % 60) }}{% endmacro %}
+{% macro target(line) %}{% if line.target is null %}&ndash;{% else %}{{ line.type == 'at_most' ? '≤' : '≥' }}&nbsp;{{ line.target|duration }}{% endif %}{% endmacro %}
 
-{% macro target(line) %}{% import _self as wt %}{% if line.target is null %}&ndash;{% else %}{{ line.type == 'at_most' ? '≤' : '≥' }}&nbsp;{{ wt.hm(line.target) }}{% endif %}{% endmacro %}
-
-{% macro diff(line) %}{% import _self as wt %}{% if line.diff is null %}&ndash;{% else %}{{ line.diff < 0 ? '−' : '+' }}{{ wt.hm(line.diff) }}{% endif %}{% endmacro %}
+{% macro diff(line) %}{% if line.diff is null %}&ndash;{% else %}{{ line.diff < 0 ? '−' : '+' }}{{ (line.diff|abs)|duration }}{% endif %}{% endmacro %}
 
 {% macro status(line) %}{{ line.ok is null ? '' : (line.ok ? 'text-success' : 'text-danger') }}{% endmacro %}
 
@@ -27,7 +24,7 @@
     {% import 'macros/widgets.html.twig' as widgets %}
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">{{ 'weekly_targets.week'|trans({'%begin%': begin|date_short, '%end%': end|date_short}) }}</h3>
+            <h3 class="card-title">{{ 'weekly_targets.week'|trans({'%begin%': begin, '%end%': end}) }}</h3>
         </div>
         {% if report.groups is empty and report.untargeted is empty %}
             <div class="card-body">
@@ -53,7 +50,7 @@
                                     {% if group.own_target %}<span class="badge bg-secondary-lt ms-1 fw-normal">{{ 'weekly_targets.customer_target'|trans }}</span>{% endif %}
                                 </td>
                                 <td class="text-end text-nowrap">{{ wt.target(group.line) }}</td>
-                                <td class="text-end">{{ wt.hm(group.line.actual) }}</td>
+                                <td class="text-end">{{ group.line.actual|duration }}</td>
                                 <td class="text-end text-nowrap {{ wt.status(group.line) }}">{{ wt.diff(group.line) }}</td>
                                 <td class="text-end">{{ wt.percent(group.line) }}</td>
                             </tr>
@@ -61,7 +58,7 @@
                                 <tr{% if row.line.target is null %} class="text-secondary"{% endif %}>
                                     <td class="ps-4">{{ widgets.label_project(row.project) }}</td>
                                     <td class="text-end text-nowrap">{{ wt.target(row.line) }}</td>
-                                    <td class="text-end">{{ wt.hm(row.line.actual) }}</td>
+                                    <td class="text-end">{{ row.line.actual|duration }}</td>
                                     <td class="text-end text-nowrap {{ wt.status(row.line) }}">{{ wt.diff(row.line) }}</td>
                                     <td class="text-end">{{ wt.percent(row.line) }}</td>
                                 </tr>
@@ -75,7 +72,7 @@
                             <tr class="fw-bold">
                                 <td>{{ 'weekly_targets.total_targeted'|trans }}</td>
                                 <td class="text-end text-nowrap">{{ wt.target(report.total) }}</td>
-                                <td class="text-end">{{ wt.hm(report.total.actual) }}</td>
+                                <td class="text-end">{{ report.total.actual|duration }}</td>
                                 <td class="text-end text-nowrap {{ wt.status(report.total) }}">{{ wt.diff(report.total) }}</td>
                                 <td class="text-end">{{ wt.percent(report.total) }}</td>
                             </tr>
@@ -93,14 +90,14 @@
                             {% for row in report.untargeted %}
                                 <tr>
                                     <td>{% if row.project.customer %}{{ widgets.label_customer(row.project.customer) }} › {% endif %}{{ widgets.label_project(row.project) }}</td>
-                                    <td class="text-end">{{ wt.hm(row.actual) }}</td>
+                                    <td class="text-end">{{ row.actual|duration }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
                         <tfoot>
                             <tr class="fw-bold">
                                 <td>{{ 'sum.total'|trans }}</td>
-                                <td class="text-end">{{ wt.hm(report.untargeted_actual) }}</td>
+                                <td class="text-end">{{ report.untargeted_actual|duration }}</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -117,7 +114,7 @@
                             {% for row in report.by_customer %}
                                 <tr>
                                     <td>{% if row.customer %}{{ widgets.label_customer(row.customer) }}{% else %}&ndash;{% endif %}</td>
-                                    <td class="text-end">{{ wt.hm(row.actual) }}</td>
+                                    <td class="text-end">{{ row.actual|duration }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -125,7 +122,7 @@
                 </div>
             {% endif %}
             <div class="card-footer">
-                <div class="fw-bold">{{ 'weekly_targets.tracked_total'|trans }}: {{ wt.hm(report.tracked_total) }}</div>
+                <div class="fw-bold">{{ 'weekly_targets.tracked_total'|trans }}: {{ report.tracked_total|duration }}</div>
                 <div class="text-secondary small mt-1">{{ 'weekly_targets.footnote'|trans }}</div>
             </div>
         {% endif %}

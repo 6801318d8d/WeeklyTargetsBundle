@@ -8,8 +8,10 @@ paper X") and limits ("at most 5 hours a week of leisure"):
   a column in their lists and exports);
 - a **Weekly targets** report (Reporting menu), one week at a time with previous / next week buttons: target,
   tracked time, difference and the percentage of the target, per project and per customer; below, the time tracked
-  without any target, all the week's time by customer (targets or not), and the week's total. Durations are hours
-  and minutes (`HH:MM`).
+  without any target, all the week's time by customer (targets or not), and the week's total;
+- a **Date and time format** setting (System → Settings → Weekly targets): ISO 8601 (`2026-12-31 18:30`, the
+  default), `31/12/2026 18:30`, `31.12.2026 18:30` or `12/31/2026 6:30 PM`. Every date and time of the report and of
+  the weekly summary follows it; durations are always `HH:MM:SS`, as everywhere in Kimai.
 
 - optionally, a **weekly summary** pushed to [ntfy](https://ntfy.sh), e.g. every Monday for the week just ended (see
   below).
@@ -45,7 +47,7 @@ its ISO week number of the year's weeks ("Week 43 of 53") with its dates on the 
 a table of all the time tracked in the week by customer, longest first, with its share of the week, and the week's
 total; then a table of the targets (✅ / ❌ and name, tracked of target, difference), the planned "at least" total
 and the time without a target; at the bottom the date and time it was sent. Tables have three columns at most, since
-some apps give every column the same width. Durations are `HH:MM`. Nothing is sent when the week has
+some apps give every column the same width. Durations are `HH:MM:SS`. Nothing is sent when the week has
 neither targets nor tracked time. The texts follow the user's language (English and Italian are included);
 `--dry-run` prints the notification instead of sending it.
 
